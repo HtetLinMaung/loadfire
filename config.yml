@@ -1,8 +1,8 @@
-url: "http://localhost:3000/api/transfer"
-method: "post"
+url: "https://www.google.com/"
+# method: "post"
 request_count: 3
-headers:
-  Content-Type: "application/json"
-body: '{"fromaccnumber":"0010111000003","toaccnumber":"0010111000004","amount":1000,"branchcode":"001"}'
+# headers:
+#   Content-Type: "application/json"
+# body: '{"fromaccnumber":"0010111000003","toaccnumber":"0010111000004","amount":1000,"branchcode":"001"}'
 # body: '{"fromaccnumber":"${fromaccnumber}","toaccnumber":"${toaccnumber}","amount":${amount},"branchcode":"${branchcode}"}'
 # data_file: convertcsv.csv
