@@ -1,4 +1,8 @@
-use std::{collections::HashMap, sync::Arc, time::{Instant, Duration}};
+use std::{
+    collections::HashMap,
+    sync::Arc,
+    time::{Duration, Instant},
+};
 
 use futures::future::join_all;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
@@ -7,14 +11,20 @@ use tokio::sync::Mutex;
 use crate::{
     config::LoadTestConfig,
     data::load_data,
-    utils::{http_method_to_reqwest_method, replace_placeholders, display_progress},
+    utils::{display_progress, http_method_to_reqwest_method, replace_placeholders},
 };
 
 pub async fn send_request(
     config: &LoadTestConfig,
     data_row: &Option<HashMap<String, String>>,
 ) -> Result<reqwest::Response, Box<dyn std::error::Error + Send>> {
-    let client = reqwest::Client::new();
+    let client = match reqwest::Client::builder()
+        .danger_accept_invalid_certs(true) // Only if you're sure about the security implications
+        .build()
+    {
+        Ok(c) => c,
+        Err(e) => return Err(Box::new(e) as Box<dyn std::error::Error + Send>),
+    };
 
     let method = match &config.method {
         Some(m) => http_method_to_reqwest_method(m),
